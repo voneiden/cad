@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional, Union, Tuple
 
 from cadquery import cq, Selector
 
@@ -70,3 +70,29 @@ class EdgeWireTracker:
         self.previous_edges += edges
         self.previous_wires += wires
         return edges, wires
+
+
+# (x, xd, xn)
+# (x1,if xp and len(xd)  x2, x3)
+def grid(self,
+         xd: Optional[Tuple[int, float]] = None,
+         yd: Optional[Tuple[int, float]] = None,
+         xp: Optional[Tuple[int, float]] = None,
+         yp: Optional[Tuple[int, float]] = None):
+    if xd and xp:
+        raise ValueError("Both xd and xp can't be given")
+
+    if yd and yp:
+        raise ValueError("Both yd and yp can't be given")
+
+    if xd and len(xd) != 3:
+        raise ValueError("xd must contain three elements: initial, delta and count")
+
+    if yd and len(yd) != 3:
+        raise ValueError("yd must contain three elements: initial, delta and count")
+
+    points = [((xd[0] + x * xd[1] if xd else x), (yd[0] + y * yd[1] if yd else y))
+              for x in (range(xd[2]) if xd else xp)
+              for y in (range(yd[2]) if yd else yp)]
+
+    return self.pushPoints(points)
