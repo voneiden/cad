@@ -98,5 +98,10 @@ def grid(self: cq.Workplane,
     return self.pushPoints(points)
 
 
-def panel_text(self: cq.Workplane, text):
-    return self.text(text, 4, -5, fontPath='./fonts/xA320PanelFont_V0.2b.ttf')
+def panel_text(self: cq.Workplane, text, fontsize=4, distance=-5, fontPath='./fonts/xA320PanelFont_V0.2b.ttf', **kwargs):
+    return self.text(text, fontsize, distance, fontPath=fontPath, **kwargs)
+
+
+def add_all(self, objs, x, y):
+    objs = list(objs)
+    return self.pushPoints(((x, y) for _ in range(len(objs)))).eachpoint(lambda loc: objs.pop().moved(loc), True)

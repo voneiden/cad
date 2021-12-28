@@ -196,13 +196,14 @@ def test():
     range_arc5 = create_rotary_selector_arc((-11.5, 0), 1, 180, [], [], round_start=False, round_end=False)
     range_arc6 = create_rotary_selector_arc((-11.5, 0), 1, 180, [], [], round_start=False, round_end=False)
 
-    range_arcX1 = create_rotary_selector_arc((-11.5, 0), 1, 180, [0, 45, 90, 135], [], round_start=False, round_end=False)
+    range_arcX1 = create_rotary_selector_arc((-11.5, 0), 3, 270, [0, 45, 90, 135], [10, 50, 200], round_start=False, round_end=False, tick_height=5)
     range_arcX2 = create_rotary_selector_arc((-11.5, 0), 1, 180, [0, 45, 90, 135, 180], [0], round_start=False, round_end=False)
     range_arcX3 = create_rotary_selector_arc((-11.5, 0), 1, 180, [0, 45, 90, 135, 180], [180], round_start=False, round_end=False)
 
     d = 12.5
     lol = 0.7071
-    aimpoint = cq.Workplane().lineTo(-d, 0).lineTo(-d * lol, d * lol).lineTo(0, d).lineTo(d * lol, d * lol).lineTo(d, 0).close().vals()
+    #aimpoint = cq.Workplane().lineTo(-d, 0).lineTo(-d * lol, d * lol).lineTo(0, d).lineTo(d * lol, d * lol).lineTo(d, 0).close().vals()
+    aimpoint = []
     print("RANGE ARC", range_arc, range_arc.vals())
     xxx = result.add_all(range_arc.close().vals() + aimpoint, 51.84, -5.81)
     xxx2 = result.add_all(range_arc2.close().vals() + aimpoint, 21.84, -25.81)

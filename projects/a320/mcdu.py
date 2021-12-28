@@ -1,10 +1,10 @@
 import cadquery as cq
 
-import lib
+from lib import cqlib
 
-cq.Workplane.sub_edges = lib.sub_edges
-cq.Workplane.rounded_rect = lib.rounded_rect
-cq.Workplane.grid = lib.grid
+cq.Workplane.sub_edges = cqlib.sub_edges
+cq.Workplane.rounded_rect = cqlib.rounded_rect
+cq.Workplane.grid = cqlib.grid
 
 width = 141
 height = 225
@@ -44,6 +44,7 @@ result = result.grid(xd=(-32.5, 16.5, 5), yp=[107.5]).rounded_rect(8, 4, tool_ra
 
 # Big indicators
 result = result.grid(xd=(-62, 124, 2), yp=[-58.5]).rounded_rect(5, 30, tool_radius)
+
 
 # Initial extrusion to 6 mm
 result = result.extrude(6)

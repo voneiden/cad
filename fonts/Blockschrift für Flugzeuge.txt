@@ -1,0 +1,57 @@
+Blockschrift für Flugzeuge.ttf
+------------------------------
+(installation: Just copy the .ttf file to your Windows/Fonts directory)
+
+
+This true type font (TTF) is a pretty accurate representation of the codes used on German
+aircraft in World War II. It was made according to RLM prescribtions of late 1943.
+
+The code system used on Luftwaffe aircraft was as follows:
+Two characters, a Balkenkreuz (Cross) and two letters.
+The first two characters indicated the Geschwader (Squadron) and can be two letters or a
+letter-number mix. The third character (directly to the right of the cross) indicated the
+individual aircraft, while the last character indicated the Staffel/Gruppe (Wing) to
+which the aircraft belonged.
+
+For example 9K+EH was aircraft number E of the first Staffel (denoted by "H") of
+Kampfgeschwader 51 (denoted by "9K").
+
+Towards the end of World War II the squadron code ("9K" in the example above) was painted
+in a smaller size than the last two characters. This is represented in the TTF by using
+small characters. The large codes are created by using the Shift or Caps-lock key. Small
+numbers are created by using Shift.
+
+  NOTE: This TTF was created for US 101 keyboard layout! Shift-# means:
+
+  1 2 3 4 5 67 8 9 0
+  ! @ # $ % ^& * ( )
+
+The dash used on civil aircraft (for example D-IBFQ) is included as -, while two types of
+crosses are included: + for an early-war Balkenkreuz and = for an late-war Balkenkreuz.
+
+So, to type the code of for example 1H+AN, an early-war Heinkel 111, you must type:
+
+1H+AN
+
+And for 9K+EH, a late-war Messerschmitt 410, use:
+
+(k =EH
+
+As you can see "9K" is in small characters, which means you have to add a "space" to
+achieve the right distance between the second characters and the cross!
+
+
+
+That's about all for now. I hope you have any use for it.
+(If you do, this tiny file will save you lots of time!!!)
+
+Ronnie Olsthoorn
+
+The Netherlands
+
+
+If you like it or if you have any comments, questions or remarks, please let me know at:
+
+     skyraider3d@hotmail.com
+  -----------------------------
+  website at www.skyraider3d.com
