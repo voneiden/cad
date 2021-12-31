@@ -1,0 +1,2 @@
+cadquery~=master
+setuptools~=59.4.0
