@@ -1,6 +1,7 @@
 from typing import Optional, Union, Tuple
 
-from cadquery import cq, Selector
+from cadquery import cq, Selector, Assembly
+from cq_editor.widgets.debugger import Debugger
 
 
 def sub_edges(self: cq.Workplane,
@@ -98,7 +99,8 @@ def grid(self: cq.Workplane,
     return self.pushPoints(points)
 
 
-def panel_text(self: cq.Workplane, text, fontsize=4, distance=-5, fontPath='./fonts/xA320PanelFont_V0.2b.ttf', **kwargs):
+def panel_text(self: cq.Workplane, text, fontsize=4, distance=-5, fontPath='./fonts/xA320PanelFont_V0.2b.ttf',
+               **kwargs):
     return self.text(text, fontsize, distance, fontPath=fontPath, **kwargs)
 
 
@@ -107,9 +109,35 @@ def add_all(self, objs, x, y):
     return self.pushPoints(((x, y) for _ in range(len(objs)))).eachpoint(lambda loc: objs.pop().moved(loc), True)
 
 
-def setup():
+def _show_wrapper(show_object):
+    def _show(self, name=None, options=None):
+        if options is None:
+            options = {}
+        show_object(self, name, options)
+
+    return _show
+
+def _debug_wrapper(debug):
+    def _debug(self, name=None):
+        debug(self, name)
+    return _debug
+
+
+def dummy_show(self, *args, **kwargs):
+    print("No show available")
+
+
+def setup(caller_locals):
     cq.Workplane.sub_edges = sub_edges
     cq.Workplane.rounded_rect = rounded_rect
     cq.Workplane.grid = grid
-    cq.Workplane.panel_text
-    cq.Workplane.add_all
+    cq.Workplane.panel_text = panel_text
+    cq.Workplane.add_all = add_all
+
+    show_f = _show_wrapper(caller_locals['show_object']) if 'show_object' in caller_locals else dummy_show
+    debug_f = _debug_wrapper(caller_locals['debug']) if 'debug' in caller_locals else dummy_show
+
+    cq.Workplane.show = show_f
+    Assembly.show = show_f
+    cq.Workplane.debug = debug_f
+    Assembly.debug = debug_f
