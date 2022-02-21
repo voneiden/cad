@@ -12,3 +12,10 @@
 
 `mamba install -c cadquery -c conda-forge cq-editor=master --force-reinstall`
 
+# Install cqlib in editable mode
+
+cqlib contains some helper functions that I use. If you want to run my scripts
+you can install this project as editable library using
+
+`pip install -e .`
+

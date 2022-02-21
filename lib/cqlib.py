@@ -1,7 +1,8 @@
 from typing import Optional, Union, Tuple
-
+import cadquery
 from cadquery import cq, Selector, Assembly
-from cq_editor.widgets.debugger import Debugger
+import logging
+logger = logging.getLogger('cqlib')
 
 
 def sub_edges(self: cq.Workplane,
@@ -117,27 +118,75 @@ def _show_wrapper(show_object):
 
     return _show
 
+
 def _debug_wrapper(debug):
     def _debug(self, name=None):
         debug(self, name)
+
     return _debug
 
 
-def dummy_show(self, *args, **kwargs):
-    print("No show available")
+def dummy_show_f(self, name=None, options=None):
+    logger.info("No show available")
+
+
+def dummy_debug_f(self, name=None):
+    logger.info("No show available")
+
+
+def dummy_show_object(obj, name=None, options=None):
+    logger.info("No show available")
+
+
+def dummy_debug(obj, name=None):
+    logger.info("No show available")
+
+
+class CustomWorkplane(cq.Workplane):
+    sub_edges = sub_edges
+    rounded_rect = rounded_rect
+    grid = grid
+    panel_text = panel_text
+    add_all = add_all
+    show = dummy_show_f
+    debug = dummy_debug_f
+
+
+class CustomAssembly(Assembly):
+    show = dummy_show_f
+    debug = dummy_debug_f
+
+
+class CustomFunctions:
+    show_object = dummy_show_object
+    debug = dummy_debug
 
 
 def setup(caller_locals):
-    cq.Workplane.sub_edges = sub_edges
-    cq.Workplane.rounded_rect = rounded_rect
-    cq.Workplane.grid = grid
-    cq.Workplane.panel_text = panel_text
-    cq.Workplane.add_all = add_all
+    if 'show_object' in caller_locals:
+        show_object = caller_locals['show_object']
+        show_f = _show_wrapper(show_object)
+    else:
+        show_object = dummy_show_object
+        show_f = dummy_show_f
 
-    show_f = _show_wrapper(caller_locals['show_object']) if 'show_object' in caller_locals else dummy_show
-    debug_f = _debug_wrapper(caller_locals['debug']) if 'debug' in caller_locals else dummy_show
+    if 'debug' in caller_locals:
+        debug = caller_locals['debug']
+        debug_f = _debug_wrapper(debug)
+    else:
+        debug = dummy_debug
+        debug_f = dummy_debug_f
 
-    cq.Workplane.show = show_f
+    CustomWorkplane.show = show_f
+    CustomWorkplane.debug = debug_f
     Assembly.show = show_f
-    cq.Workplane.debug = debug_f
     Assembly.debug = debug_f
+    CustomFunctions.show_object = show_object
+    CustomFunctions.debug = debug
+
+    cq.Workplane = CustomWorkplane
+    cq.Assembly = Assembly
+    cadquery.Workplane = CustomWorkplane
+    cadquery.Assembly = CustomAssembly
+
+
