@@ -117,11 +117,12 @@ cam_bottom = (
 )
 
 
-show_object(assembly)
-cam_top.show(show_object)
-cam_side.show(show_object)
-cam_bottom.show(show_object)
 
 cam_top.save_gcode('cam_top.nc')
 cam_side.save_gcode('cam_side.nc')
 cam_bottom.save_gcode('cam_bottom.nc')
+
+show_object(assembly)
+cam_top.show(show_object)
+cam_side.show(show_object)
+cam_bottom.show(show_object)
