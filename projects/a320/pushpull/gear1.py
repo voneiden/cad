@@ -5,7 +5,7 @@ from cq_gears import SpurGear
 from cq_cam import JobV2, EdgeTabs, WireTabs
 from cq_cam.operations import profile
 
-spur_gear1 = SpurGear(module=1.026, teeth_number=26, width=4, bore_d=9.8)
+spur_gear1 = SpurGear(module=1, teeth_number=16, width=4, bore_d=9.8)
 
 
 result = (

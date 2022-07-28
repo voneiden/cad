@@ -3,7 +3,7 @@ from cq_gears import SpurGear
 
 from cq_cam import JobV2
 
-spur_gear2 = SpurGear(module=1.026, teeth_number=13, width=4, bore_d=5.8)
+spur_gear2 = SpurGear(module=1, teeth_number=24, width=4, bore_d=5.9)
 
 
 result = (
