@@ -1,4 +1,6 @@
 import cadquery as cq
+
+from cq_cam import JobV2
 from lib import cqlib
 
 cqlib.setup(locals())
@@ -81,6 +83,45 @@ assembly = (
          name='bottom')
 )
 
+cam_top = (
+    JobV2(
+        name='Top',
+        top=top_frame.faces('>Z').workplane().plane,
+        feed=300,
+        tool_diameter=1.0,
+        plunge_feed=100)
+    .profile(top_frame.faces('<Z'), inner_offset=-1, stepdown=1)
+    .profile(top_frame.faces('<Z'), outer_offset=1, stepdown=1)
+)
 
-assembly.save('frame.step')
+cam_side = (
+    JobV2(
+        name='Side',
+        top=side_frame.faces('>Z').workplane().plane,
+        feed=300,
+        tool_diameter=1.0,
+        plunge_feed=100)
+    .profile(side_frame.faces('<Z'), inner_offset=-1, stepdown=1)
+    .profile(side_frame.faces('<Z'), outer_offset=1, stepdown=1)
+)
+
+cam_bottom = (
+    JobV2(
+        name='Bottom',
+        top=bottom_frame.faces('>Z').workplane().plane,
+        feed=300,
+        tool_diameter=1.0,
+        plunge_feed=100)
+    .profile(bottom_frame.faces('<Z'), inner_offset=-1, stepdown=1)
+    .profile(bottom_frame.faces('<Z'), outer_offset=1, stepdown=1)
+)
+
+
 show_object(assembly)
+cam_top.show(show_object)
+cam_side.show(show_object)
+cam_bottom.show(show_object)
+
+cam_top.save_gcode('cam_top.nc')
+cam_side.save_gcode('cam_side.nc')
+cam_bottom.save_gcode('cam_bottom.nc')

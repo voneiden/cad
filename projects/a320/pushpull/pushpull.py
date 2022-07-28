@@ -1,5 +1,7 @@
 import cadquery as cq
 
+from cq_cam import JobV2
+
 tolerance = 0.1
 rotary_enc_od = 6
 rotary_enc_id = 4.5
@@ -10,14 +12,9 @@ inner_shaft_od = 8
 outer_shaft_id = 8
 outer_shaft_od = 10
 
-
-rotary_enc_od = 6
-
 tool_diameter = 1
+rotary_enc_coupler_thickness = 4
 
-
-
-rotary_enc_coupler_thickness = 3
 rotary_enc_coupler = (
     cq.Workplane()
     .circle((inner_shaft_od + 5) / 2)
@@ -59,4 +56,21 @@ rotary_enc_coupler = (
     .cutBlind(-rotary_enc_coupler_thickness)
 )
 
-cq.exporters.export(rotary_enc_coupler, 'pp.stl')
+cam = (
+    JobV2(
+        top=rotary_enc_coupler.faces('>Z').workplane().plane,
+        feed=300,
+        tool_diameter=1.0,
+        plunge_feed=100)
+    .profile(rotary_enc_coupler.faces('<Z'), inner_offset=-1, stepdown=1)
+    .profile(rotary_enc_coupler.faces('<Z[1]'), outer_offset=-1, stepdown=1)
+    .profile(rotary_enc_coupler.faces('<Z'), outer_offset=1, stepdown=1)
+)
+
+
+cam.save_gcode('pushpull.nc')
+show_object(rotary_enc_coupler)
+cam.show(show_object)
+
+
+#cq.exporters.export(rotary_enc_coupler, 'pp.stl')
