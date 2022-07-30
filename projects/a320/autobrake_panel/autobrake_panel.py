@@ -1,18 +1,9 @@
 import cadquery as cq
 
 from lib import cqlib
-
+from autobrake_panel_common import *
 cqlib.setup(locals())
 
-mill_radius = 3.175 / 2
-
-# Panel outline
-width = 117
-right_height = 135
-left_height = 95
-right_width = 39
-big_arc = 7.5
-small_arc = 2
 
 side_arc_width_single = big_arc + small_arc * 2
 side_arc_width_double = side_arc_width_single * 2
@@ -46,9 +37,7 @@ panel = (
 )
 
 # Screw holes
-screw_distance_from_side = 7
-screw_outer_diameter = 7
-screw_inner_diameter = 4  # TODO
+
 screw_positions = [
     (0, right_height/2 - screw_distance_from_side),
     (-width / 2 + side_arc_width_single + screw_distance_from_side,
@@ -65,9 +54,7 @@ screw = (
 
 
 # Landing gear cutout
-ldg_gear_height = 20
-ldg_gear_width = 60
-ldg_gear_top_margin = 14
+
 ldg_gear = (
     screw
     .moveTo(-width / 2 + 13 + ldg_gear_width / 2,
@@ -76,8 +63,7 @@ ldg_gear = (
 )
 
 # Brake fan
-brake_fan_width = 20
-brake_fan_height = 20
+
 brake_fan = (
     ldg_gear
     .moveTo(width / 2 - 10 - brake_fan_width / 2, right_height/2 - 14 - ldg_gear_height / 2)
@@ -85,12 +71,7 @@ brake_fan = (
 )
 
 # Auto brake
-ab_left_width = 40
-ab_right_width = 20
-ab_height = 20
-ab_spacing = 7
-ab_left_margin = 9
-ab_top_margin = ldg_gear_top_margin + ldg_gear_height + 20
+
 autobrake = (
     brake_fan
     .moveTo(-width / 2 + ab_left_margin + ab_left_width / 2,
@@ -102,9 +83,7 @@ autobrake = (
 )
 
 # Anti skid
-askid_right_margin = 20
-askid_inner_radius = 5 # TODO
-askid_outer_radius = 10
+
 askid_point = (width / 2 - askid_right_margin,
                right_height / 2 - ab_top_margin - ldg_gear_height / 2)
 askid = (
@@ -115,10 +94,7 @@ askid = (
 
 
 # Terr on ND
-terr_bottom_margin = 11
-terr_right_margin = 9
-terr_width = 20
-terr_height = 20
+
 terr = (
     askid
     .moveTo(width/2 - terr_right_margin - terr_width / 2,
@@ -184,7 +160,31 @@ panel_engravings = (
 show_object(panel_engravings, 'result')
 
 
+"""
+cq.exporters.export(
+            panel_engravings,
+            'drawing.svg',
+            opt={
+                "showAxes": False,
+                "projectionDir": (0, 0, 1.0),
+                "showHidden": False,
+                "strokeWidth": 0.1,
+            },
+        )
 
+"""
+
+cq.exporters.export(
+    panel_engravings,
+    'drawing.dxf'
+)
+with open('autobrake_panel.brep', 'w') as f:
+    f.write(panel_engravings)
+
+#cq.exporters.export(
+#    panel_engravings,
+#    'autobrake_panel.brep'
+#)
 
 
 
