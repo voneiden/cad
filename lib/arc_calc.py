@@ -58,6 +58,8 @@ def sum(v1, v2):
 def sub(v1, v2):
     return v1[0] - v2[0], v1[1] - v2[1]
 
+def mul(v1, d):
+    return v1[0] * d, v1[1] * d
 
 # Vector rotation
 # x2 = cos a x1 - sin a y1
