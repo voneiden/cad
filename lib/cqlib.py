@@ -1,8 +1,10 @@
-from typing import Optional, Union, Tuple
+from typing import Optional, Union, Tuple, TypeVar
 import cadquery
 from cadquery import cq, Selector, Assembly
 import logging
 logger = logging.getLogger('cqlib')
+
+T = TypeVar("T", bound='CustomWorkplaneMixin')
 
 
 def sub_edges(self: cq.Workplane,
@@ -54,7 +56,7 @@ def drop_outermost(self: cq.Workplane):
     return self
 
 
-def rounded_rect(self: cq.Workplane, xlen, ylen, fillet_radius):
+def rounded_rect(self: T, xlen, ylen, fillet_radius) -> T:
     rect = cq.Workplane().rect(xlen, ylen).val()
     pts = rect.Vertices()
     rect = rect.fillet2D(fillet_radius, pts)
@@ -150,6 +152,14 @@ class CustomWorkplane(cq.Workplane):
     add_all = add_all
     show = dummy_show_f
     debug = dummy_debug_f
+
+
+class CustomWorkplaneMixin:
+    def rounded_rect(self: T, xlen, ylen, fillet_radius) -> T:
+        rect = cq.Workplane().rect(xlen, ylen).val()
+        pts = rect.Vertices()
+        rect = rect.fillet2D(fillet_radius, pts)
+        return self.eachpoint(lambda loc: rect.moved(loc), True)
 
 
 class CustomAssembly(Assembly):
