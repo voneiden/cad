@@ -156,11 +156,13 @@ panel_engravings = (
     .panel_text('TERR ON ND', fontsize=5, distance=-0.1)
 )
 
+if __name__ == "__cq_viewer__":
+    from cq_viewer import show_object
 
 show_object(panel_engravings, 'result')
 
 
-"""
+
 cq.exporters.export(
             panel_engravings,
             'drawing.svg',
@@ -172,21 +174,33 @@ cq.exporters.export(
             },
         )
 
-"""
+
+
+cq.exporters.export(
+    panel_engravings.faces(">Z"),
+    'drawing.dxf'
+)
+
+test = panel_engravings.faces("<Z")
+test.objects = [test.objects[0].outerWire()]
+test.objects[0].exportBrep("buggy.brep")
+cq.exporters.export(
+    test,
+    'drawing_test2.dxf',
+    #opt={"approx": "arc"}
+)
+
+#with open('autobrake_panel.brep', 'w') as f:
+#    f.write(panel_engravings)
 
 cq.exporters.export(
     panel_engravings,
-    'drawing.dxf'
+    'autobrake_panel.step'
 )
-with open('autobrake_panel.brep', 'w') as f:
-    f.write(panel_engravings)
-
-#cq.exporters.export(
-#    panel_engravings,
-#    'autobrake_panel.brep'
-#)
 
 
+
+panel_engravings.objects[0].exportBrep("autobrake_panel.brep")
 
 
 
