@@ -28,6 +28,7 @@ piece1 = burr_piece(
     ],
 )
 
+
 piece2 = burr_piece(
     9,
     [
@@ -41,7 +42,7 @@ piece2 = burr_piece(
         ],
         [
             [1, 1],
-            [1, 1],
+            [0, 0],
             [0, 0],
             [0, 0],
             [0, 0],
@@ -49,7 +50,6 @@ piece2 = burr_piece(
         ],
     ],
 )
-
 
 piece3 = burr_piece(
     9,
@@ -67,12 +67,11 @@ piece3 = burr_piece(
             [0, 0],
             [0, 0],
             [0, 0],
-            [0, 0],
+            [1, 1],
             [1, 1],
         ],
     ],
 )
-
 piece4 = burr_piece(
     9,
     [
